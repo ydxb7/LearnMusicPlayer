@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private boolean isRelease = true;
@@ -28,13 +29,13 @@ public class MainActivity extends AppCompatActivity {
                     isRelease = false;
                 }
                 mPlayer.start();
-
-                Button playButton = (Button) findViewById(R.id.play_button);
-                Button pauseButton = (Button) findViewById(R.id.pause_button);
-                Button stopButton = (Button) findViewById(R.id.stop_button);
-                playButton.setEnabled(false);
-                pauseButton.setEnabled(true);
-                stopButton.setEnabled(true);
+                // when the music is finished, show a toast.
+                mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        Toast.makeText(MainActivity.this, "I'm done!", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
@@ -42,13 +43,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mPlayer.pause();
-
-                Button playButton = (Button) findViewById(R.id.play_button);
-                Button pauseButton = (Button) findViewById(R.id.pause_button);
-                Button stopButton = (Button) findViewById(R.id.stop_button);
-                playButton.setEnabled(true);
-                pauseButton.setEnabled(false);
-                stopButton.setEnabled(true);
             }
         });
 
@@ -58,13 +52,6 @@ public class MainActivity extends AppCompatActivity {
                 mPlayer.reset();
                 mPlayer.release();
                 isRelease = true;
-
-                Button playButton = (Button) findViewById(R.id.play_button);
-                Button pauseButton = (Button) findViewById(R.id.pause_button);
-                Button stopButton = (Button) findViewById(R.id.stop_button);
-                playButton.setEnabled(true);
-                pauseButton.setEnabled(false);
-                stopButton.setEnabled(false);
             }
         });
 
